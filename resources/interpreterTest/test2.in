@@ -1,0 +1,10 @@
+void func(date d){
+    if( !(d < 01.01.2000.00:00:00) ) {
+        print("not 1999");
+    }
+}
+
+void main() {
+    date d = 01.01.2021.15:25:59;
+    func(d);
+}

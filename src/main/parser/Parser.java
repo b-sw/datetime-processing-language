@@ -1,5 +1,5 @@
 /*
- *	Name:		SourceTest.java
+ *	Name:		Parser.java
  *	Purpose:
  *
  *	@author:     Bartosz Świtalski
@@ -14,8 +14,9 @@ import main.errors.Errors;
 import main.lexer.Lexer;
 import main.lexer.Token;
 import main.grammar.*;
-import main.parser.operators.*;
+import main.grammar.operators.*;
 
+import javax.swing.plaf.synth.SynthStyleFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -168,7 +169,7 @@ public class Parser {
         }
 
         ParenthCond parenthCond = this.parseParenthCond();
-        this.requireNotNull(parenthCond, ErrorMessages.ParserSyntaxError.IF_STATEMENT);
+        this.requireNotNullThenGetNext(parenthCond);
 
         Block block1 = this.parseBlock();
         this.requireNotNull(block1, ErrorMessages.ParserSyntaxError.IF_STATEMENT);
@@ -177,6 +178,7 @@ public class Parser {
         if(elseStatement == null){
             return new IfStatement(parenthCond.getCondition(), block1);
         }
+
         return new IfStatement(parenthCond.getCondition(), block1, elseStatement);
     }
 
@@ -195,7 +197,7 @@ public class Parser {
             return null;
         }
         ParenthCond parenthCond = this.parseParenthCond();
-        this.requireNotNull(parenthCond, ErrorMessages.ParserSyntaxError.WHILE_STATEMENT);
+        this.requireNotNullThenGetNext(parenthCond);
 
         Block block = this.parseBlock();
         this.requireNotNull(block, ErrorMessages.ParserSyntaxError.WHILE_STATEMENT);
@@ -337,6 +339,7 @@ public class Parser {
             this.requireNotNull(andCond, ErrorMessages.ParserSyntaxError.OR_COND);
             andConds.add(andCond);
         }
+
         return new OrCond(andConds.toArray(new AndCond[0]));
     }
 
@@ -356,6 +359,7 @@ public class Parser {
             requireNotNull(equalCond, ErrorMessages.ParserSyntaxError.AND_COND);
             equalConds.add(equalCond);
         }
+
         return new AndCond(equalConds.toArray(new EqualCond[0]));
     }
 
@@ -373,6 +377,7 @@ public class Parser {
             this.requireNotNull(relationCond2, ErrorMessages.ParserSyntaxError.EQUAL_COND);
             return new EqualCond(relationCond1, equalOperator, relationCond2);
         }
+
         return new EqualCond(relationCond1);
     }
 
@@ -417,9 +422,18 @@ public class Parser {
         }
 
         OrCond condition = this.parseCondition();
+
         this.requireNotNull(condition, ErrorMessages.ParserSyntaxError.PARENTH_COND);
-        this.requireThenGetNext(Token.Type.RPAREN, ErrorMessages.ParserSyntaxError.PARENTH_COND);
-        return new ParenthCond(condition);
+
+        if(this.lexer.getToken().getType() == Token.Type.RPAREN){
+            return new ParenthCond(condition);
+        }
+        else{
+            throw new Errors.SyntaxError(this.lexer.getLine(), this.lexer.getColumn(), ErrorMessages.ParserSyntaxError.PARENTH_COND);
+        }
+//        this.requireThenGetNext(Token.Type.RPAREN, ErrorMessages.ParserSyntaxError.PARENTH_COND);
+//
+//        return new ParenthCond(condition);
     }
 
     // "(", expression, ")" ;
@@ -469,13 +483,13 @@ public class Parser {
         factors.add(factor);
 
         while(this.lexer.getToken().getType() == Token.Type.MULTIPLY || this.lexer.getToken().getType() == Token.Type.DIVIDE){
-                multOperators.add(Attributes.multOperators.get(this.lexer.getToken().getType()));
-                this.lexer.getNextToken();
-                factor = this.parseFactor();
+            multOperators.add(Attributes.multOperators.get(this.lexer.getToken().getType()));
+            this.lexer.getNextToken();
+            factor = this.parseFactor();
 
-                requireNotNull(factor, ErrorMessages.ParserSyntaxError.TERM);
-                factors.add(factor);
-            }
+            requireNotNull(factor, ErrorMessages.ParserSyntaxError.TERM);
+            factors.add(factor);
+        }
         return new Term(factors.toArray(new Factor[0]), multOperators.toArray(new MultOperator[0]));
     }
 

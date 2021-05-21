@@ -1,5 +1,5 @@
 /*
- *	Name:		TokenError.java
+ *	Name:		ErrorMessages.java
  *	Purpose:
  *
  *	@author:     Bartosz Świtalski

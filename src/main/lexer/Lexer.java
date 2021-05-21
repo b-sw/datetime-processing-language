@@ -247,7 +247,7 @@ public class Lexer{
         this.token = new Token(Token.Type.STRING, this.source.getLine(), this.source.getColumn(), str);
     }
 
-    private String readString() throws Errors.StringTooLong, IOException {
+    private String readString() throws Errors.StringTooLong, IOException, Errors.StringUnclosed {
         StringBuilder sb = new StringBuilder();
         sb.append((char)this.source.getChar());
         this.source.moveCharOnePos();
@@ -258,6 +258,10 @@ public class Lexer{
                 throw new Errors.StringTooLong(this.source.getLine(), this.source.getColumn());
             }
             this.source.moveCharOnePos();
+
+            if(this.isEof()){
+                throw new Errors.StringUnclosed(this.getLine(), this.getColumn());
+            }
         }
         sb.append((char)this.source.getChar());
         this.source.moveCharOnePos();

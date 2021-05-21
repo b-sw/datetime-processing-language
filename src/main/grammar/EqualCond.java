@@ -1,6 +1,16 @@
+/*
+ *	Name:		EqualCond.java
+ *	Purpose:
+ *
+ *	@author:     Bartosz Świtalski
+ *
+ *	Warsaw University of Technology
+ *	Faculty of Electronics and Information Technology
+ */
 package main.grammar;
 
-import main.parser.operators.EqualOperator;
+import main.errors.Errors;
+import main.grammar.operators.EqualOperator;
 import main.visitor.Visitable;
 import main.visitor.Visitor;
 
@@ -22,8 +32,8 @@ public class EqualCond extends Condition implements Visitable {     // relationC
     }
 
     @Override
-    public void accept(Visitor visitor) {
-//        visitor.visit(this);
+    public void accept(Visitor visitor) throws Errors.InterpreterError {
+        visitor.visit(this);
     }
 
     public RelationCond getRelationCond1() { return this.relationCond1; }

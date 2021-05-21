@@ -9,8 +9,9 @@
  */
 package main.visitor;
 
+import main.errors.Errors;
 import main.visitor.Visitor;
 
 public interface Visitable {
-    public void accept(Visitor visitor);
+    public void accept(Visitor visitor) throws Errors.InterpreterError;
 }

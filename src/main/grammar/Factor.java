@@ -1,11 +1,21 @@
+/*
+ *	Name:		Factor.java
+ *	Purpose:
+ *
+ *	@author:     Bartosz Świtalski
+ *
+ *	Warsaw University of Technology
+ *	Faculty of Electronics and Information Technology
+ */
 package main.grammar;
 
+import main.errors.Errors;
 import main.visitor.Visitable;
 import main.visitor.Visitor;
 
 public class Factor implements Visitable {   // ["-"], ( number | date | time | id | parenthExpr | functionCall ) ;
     private boolean minus;
-    private double num;
+    private Double num;
     private Date date;
     private Time time;
     private String id;
@@ -125,15 +135,15 @@ public class Factor implements Visitable {   // ["-"], ( number | date | time | 
     }
 
     @Override
-    public void accept(Visitor visitor) {
-//        visitor.visit(this);
+    public void accept(Visitor visitor) throws Errors.InterpreterError {
+        visitor.visit(this);
     }
 
     public String getId() {
         return this.id;
     }
 
-    public double getNum() {
+    public Double getNum() {
         return this.num;
     }
 

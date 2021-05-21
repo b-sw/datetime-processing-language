@@ -1,5 +1,5 @@
 /*
- *	Name:		.java
+ *	Name:		Parameters.java
  *	Purpose:
  *
  *	@author:     Bartosz Świtalski

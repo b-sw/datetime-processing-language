@@ -1,0 +1,16 @@
+void check(date d1, date d2, num n1, num n2) {
+    if (d1 >= d2 && n1 > n2 || n1 < n2){
+        print("priorities hierarchy ok");
+    }
+    else{
+        print("oops.. something wrong");
+    }
+}
+void main() {
+    date d1 = 01.01.1999.11:11:11;
+    date d2 = 01.01.1999.11:11:11;
+    num n1 = 12.34;
+    num n2 = 5;
+
+    check(d1, d2, n1, n2);
+}

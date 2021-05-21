@@ -1,0 +1,17 @@
+// function
+date change(date d, time t){
+    num i = 0;
+    while(i < 5) {
+        d = d + t;
+        i = i + 1;
+    }
+    return d;
+}
+// main
+void main() {
+    date now = 01.01.2021.23:59:59;
+    time add = 24:00:00;
+
+    date later = change(now, add);
+    print("after change: ", later);
+}

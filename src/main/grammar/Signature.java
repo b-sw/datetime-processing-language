@@ -1,5 +1,5 @@
 /*
- *	Name:		.java
+ *	Name:		Signature.java
  *	Purpose:
  *
  *	@author:     Bartosz Świtalski
@@ -9,7 +9,7 @@
  */
 package main.grammar;
 
-import main.parser.operators.Type;
+import main.grammar.operators.Type;
 
 public class Signature{     // type, id ;
     private Type type;

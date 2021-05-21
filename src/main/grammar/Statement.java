@@ -1,6 +1,19 @@
+/*
+ *	Name:		Statement.java
+ *	Purpose:
+ *
+ *	@author:     Bartosz Świtalski
+ *
+ *	Warsaw University of Technology
+ *	Faculty of Electronics and Information Technology
+ */
 package main.grammar;
 
-public class Statement {
+import main.errors.Errors;
+import main.visitor.Visitable;
+import main.visitor.Visitor;
+
+public class Statement implements Visitable {
     public Signature getSignature() { return null; }
 
     public Expression getExpression() { return null; }
@@ -13,10 +26,6 @@ public class Statement {
         return null;
     }
 
-    public Block getElseBlock() {
-        return null;
-    }
-
     public Printable[] getPrintables() {
         return null;
     }
@@ -24,4 +33,7 @@ public class Statement {
     public String getId() { return null; }
 
     public Statement getElseStatement() { return null; }
+
+    @Override
+    public void accept(Visitor visitor) throws Errors.InterpreterError {}
 }

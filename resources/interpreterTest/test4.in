@@ -1,0 +1,20 @@
+time dif(date d1, date d2){
+    if (d1 >= d2) {
+        print("d1>=d2");
+        return d1 - d2;
+    }
+    else {
+        print("d1<d2");
+        return d2 - d1;
+    }
+}
+void main() {
+    time ref = 00:00:01;
+    date d1 = 01.01.1999.00:00:01;      // komentarz
+    date d2 = 01.01.1999.00:00:00;
+    date d3 = 01.01.2021.00:00:00;
+
+    if(d3 > d1 && dif(d1, d2) == ref) {
+        print("everything is ok");
+    }
+}

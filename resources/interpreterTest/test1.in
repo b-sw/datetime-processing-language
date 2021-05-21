@@ -1,0 +1,12 @@
+num func(num a){
+    if(a < 10){
+        return a;
+    }
+    else{
+        return 10;
+    }
+}
+void main(){
+    num result = func(10.01);
+    print("result: ", result);
+}

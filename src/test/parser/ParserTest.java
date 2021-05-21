@@ -1,10 +1,19 @@
+/*
+ *	Name:		ParserTest.java
+ *	Purpose:
+ *
+ *	@author:     Bartosz Świtalski
+ *
+ *	Warsaw University of Technology
+ *	Faculty of Electronics and Information Technology
+ */
 package parser;
 
 import main.errors.Errors;
 import main.lexer.Lexer;
 import main.grammar.*;
 import main.parser.*;
-import main.parser.operators.*;
+import main.grammar.operators.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
@@ -593,7 +602,7 @@ class ParserTest {
         assertNull(assignStatement.getExpression().getTerms()[0].getFactors()[0].getParenthExpression());
         assertNull(assignStatement.getExpression().getTerms()[0].getFactors()[0].getId());
         assertNull(assignStatement.getExpression().getTerms()[0].getFactors()[0].getFunctionCall());
-        assertEquals(0, assignStatement.getExpression().getTerms()[0].getFactors()[0].getNum());
+        assertNull(assignStatement.getExpression().getTerms()[0].getFactors()[0].getNum());
     }
 
     @Test   // id, "(", arguments, ")" ;
@@ -730,6 +739,18 @@ class ParserTest {
                                     .getTerms()[0].getFactors()[0].getId());
     }
 
+    @Test   // [ negationOp ], ( parenthCond | expression ) ;
+    void parseDoubleParenthCond() throws IOException, Errors.TokenError {
+        Parser parser = new Parser(new Lexer("""
+                (!(a > b))
+                """));
+        ParenthCond parenthCond = parser.parseParenthCond();
+        assertNotNull(parenthCond);
+
+        assertTrue(parenthCond.getCondition().getAndConds()[0].getEqualConds()[0].getRelationCond1().getPrimaryCond1().getNegationOp());
+
+    }
+
     @Test   // "(", orCondition, ")" ;
     void parseParenthCond() throws IOException, Errors.TokenError {
         Parser parser = new Parser(new Lexer("""
@@ -756,6 +777,15 @@ class ParserTest {
         assertEquals(RelationOperator.LESS_OR_EQUAL, parenthCond.getCondition().getAndConds()[1].getEqualConds()[0].getRelationCond1().getRelationOp());
         assertEquals("f", parenthCond.getCondition().getAndConds()[1].getEqualConds()[0].getRelationCond1()
                 .getPrimaryCond2().getExpression().getTerms()[0].getFactors()[0].getId());
+    }
+
+    @Test
+    void parseConditionNegated() throws IOException, Errors.TokenError {
+        Parser parser = new Parser(new Lexer("""
+                !(d < 01.01.2000.00:00:00)
+                """));
+        OrCond orCond = parser.parseCondition();
+        assertNotNull(orCond);
     }
 
 
@@ -864,7 +894,7 @@ class ParserTest {
         assertTrue(factor.getMinus());
         assertEquals("x", factor.getId());
 
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getFunctionCall());
         assertNull(factor.getParenthExpression());
         assertNull(factor.getTime());
@@ -883,7 +913,7 @@ class ParserTest {
 
         assertFalse(factor.getMinus());
         assertNull(factor.getId());
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getFunctionCall());
         assertNull(factor.getParenthExpression());
         assertNull(factor.getTime());
@@ -901,7 +931,7 @@ class ParserTest {
 
         assertFalse(factor.getMinus());
         assertNull(factor.getId());
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getFunctionCall());
         assertNull(factor.getParenthExpression());
         assertNull(factor.getDate());
@@ -920,7 +950,7 @@ class ParserTest {
 
         assertFalse(factor.getMinus());
         assertNull(factor.getId());
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getParenthExpression());
         assertNull(factor.getTime());
         assertNull(factor.getDate());
@@ -944,7 +974,7 @@ class ParserTest {
 
         assertFalse(factor.getMinus());
         assertNull(factor.getId());
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getFunctionCall());
         assertNull(factor.getTime());
         assertNull(factor.getDate());
@@ -968,7 +998,7 @@ class ParserTest {
 
         assertFalse(factor.getMinus());
         assertNull(factor.getId());
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getFunctionCall());
         assertNull(factor.getTime());
         assertNull(factor.getDate());
@@ -992,7 +1022,7 @@ class ParserTest {
 
         assertFalse(factor.getMinus());
         assertNull(factor.getId());
-        assertEquals(0, factor.getNum());
+        assertNull(factor.getNum());
         assertNull(factor.getFunctionCall());
         assertNull(factor.getTime());
         assertNull(factor.getDate());

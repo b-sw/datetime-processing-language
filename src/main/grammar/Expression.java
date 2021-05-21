@@ -1,6 +1,16 @@
+/*
+ *	Name:		Expression.java
+ *	Purpose:
+ *
+ *	@author:     Bartosz Świtalski
+ *
+ *	Warsaw University of Technology
+ *	Faculty of Electronics and Information Technology
+ */
 package main.grammar;
 
-import main.parser.operators.AddOperator;
+import main.errors.Errors;
+import main.grammar.operators.AddOperator;
 import main.visitor.Visitable;
 import main.visitor.Visitor;
 
@@ -14,8 +24,8 @@ public class Expression implements Visitable {   // term, { addOp, term } ;
     }
 
     @Override
-    public void accept(Visitor visitor) {
-//        visitor.visit(this);
+    public void accept(Visitor visitor) throws Errors.InterpreterError {
+        visitor.visit(this);
     }
 
     public Term[] getTerms() { return this.terms; }

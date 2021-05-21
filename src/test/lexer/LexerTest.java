@@ -226,6 +226,13 @@ class LexerTest {
     }
 
     @Test
+    void testStringUnclosed2() throws IOException {
+        Lexer lexer = new Lexer("\"abc");
+
+        assertThrows(Errors.StringUnclosed.class, lexer::getNextToken);
+    }
+
+    @Test
     void testDateFullYear() throws IOException, Errors.TokenError {
         Lexer lexer = new Lexer("01.01.2021.12:34:56");
 

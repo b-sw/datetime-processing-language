@@ -1,6 +1,16 @@
+/*
+ *	Name:		Term.java
+ *	Purpose:
+ *
+ *	@author:     Bartosz Świtalski
+ *
+ *	Warsaw University of Technology
+ *	Faculty of Electronics and Information Technology
+ */
 package main.grammar;
 
-import main.parser.operators.MultOperator;
+import main.errors.Errors;
+import main.grammar.operators.MultOperator;
 import main.visitor.Visitable;
 import main.visitor.Visitor;
 
@@ -14,8 +24,8 @@ public class Term implements Visitable { // factor, { multOp, factor } ;
     }
 
     @Override
-    public void accept(Visitor visitor) {
-//        visitor.visit(this);
+    public void accept(Visitor visitor) throws Errors.InterpreterError {
+        visitor.visit(this);
     }
 
     public Factor[] getFactors() { return this.factors; }
