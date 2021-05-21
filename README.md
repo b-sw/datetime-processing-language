@@ -9,7 +9,10 @@ Compilation Techniques project @ Warsaw University of Technology. The aim of the
 * [Requirements](#requirements)
 * [Run guide](#run-guide)
 * [Language features](#language-features)
+* [Usage example](#usage-example)
 * [Language details](#language-details)
+* [Testing](#testing)
+* [Grammar](#grammar)
 
 ## Author 
 Bartosz Świtalski  
@@ -40,5 +43,76 @@ After running the program it will write the output to standard output.
 - ability to define own methods
 - built-in method `print()`
 
-## Language details
+## Usage example
 
+## Language details
+Language, technical details and more usage examples are to be found in `doc` directory in `manual` file.
+
+## Testing
+A good number of tests has been written for numerous parts of the project. Those include unit tests implemented with JUnit and additional functional tests that can be run using the included bash script.
+
+### JUnit
+JUnit tests in this project were written in order to test:
+- source
+- lexer
+- parser
+- scope
+- interpreter
+
+They can be found under `src/test` directory.
+
+### Bash script for functional testing
+In order to test whether interpreter works correctly I wrote a bash script that allows user to compare interpretable program output with desired(expected) output. In order to do so one must place two files in the `resources/` directory: 
+- an interpretable file with an `.in` extension 
+- file with desired(expected) output with an `.cmp` extension
+
+After placing those files in the appropriate directory one should run the `test_output` bash script from `src/` directory. If any of the tests are unsuccesful the procedure will stop and exit with a proper message.
+
+## Grammar
+*EBNF notation*
+
+| &nbsp; | &nbsp;  |
+|---------------| :-----|
+| program | = { functionDef } ; |
+| functionDef | = signature, "(", parameters, ")", block ; |
+| functionCall | = id, "(", arguments, ")" ; |
+| signature | = type, id ; |
+| parameters | = [ signature { ",", signature } ] ; |
+| arguments| = [ expression { ”,”, expression } ];|
+| block | = ”{”, { statement }, ”}” ; |
+| statement | = block \| ifStatement \| whileStatement \| printStatement \| returnStatement \| initStatement \| assignStatement \| ( functionCall, ”;” ) ; |
+| ifStatement | = ”if”, ”(”, orCondition, ”)”, statement,[ ”else”, statement ] ; |
+| whileStatement | = ”while”, ”(”, ”orCondition”, ”)”, block ;|
+| printStatement | = ”print”, ”(”, printable, { ”,”, printable }, ”)”, ”;” ;|
+| returnStatement| = ”return”, expression, ”;” ;|
+| initStatement | = signature, [ assignmentOp, expression ], ”;” ;|
+| assignStatement | = id, assignmentOp, expression, ”;” ;|
+| printable | = expression \| string ;|
+| expression | = term, { addOp, term } ;|
+| parenthExpr | = ”(”, expression, ”)” ;|
+| term | = factor, { multOp, factor } ;|
+| factor | = [”-”], ( number \| date \| time \| id \| parenthExpr \| functionCall) ;|
+| orCondition | = andCond, { orOp, andCond } ;|
+| andCond | = equalCond, { andOp, equalCond } ;|
+| equalCond | = relationCond, [ equalOp, relationCond ] ;|
+| relationCond | = primaryCond, [ relationOp, primaryCond ] ;|
+| primaryCond | = [ negationOp ], ( parenthCond \| expression ) ;|
+| parentCond | = ”(”, orCondition, ”)” ;|
+| negationOp | = "!" ;|
+| assignmentOp | = "=" ;|
+| orOp | = "||" ;|
+| andOp | = "&&" ;|
+| equalOp | = "==" ;|
+| relationOp | = ”>” \| ”<” \| ”>=” \| ”<=” ;|
+| addOp | = ”+” \| ”-” ;|
+| multOp | = ”*” \| ”/” ;|
+| number | = ( digit,[ ”.”, digit, { digit } ] ) \| ( naturalDigit, { digit }, [ ”.”, digit, { digit } ] ) ;|
+| date | = digit, digit, ”.”, digit, digit, ”.”, digit, [ digit, [ digit, [ digit ] ] ], ”.”, time ;|
+| time | = digit, digit, ”:”, digit, digit, ”:”, digit, digit ;|
+| id | = letter, { digit \| letter | ”_” } ;|
+| letter | = ”a” \| ... \| ”z” \| ”A” \| ... \| ”Z” ;|
+| digit | = ”0” \| ... \| ”9” ;|
+| naturalDigit | = ”1” \| ... \| ”9” ;|
+| type | = ”num” \| ”date” \| ”time” ;|
+| string | = ”””, { ( anyChar - ””” ) \| ” ” }, ”””  ;|
+| anyChar | = ? all visible characters ?|
