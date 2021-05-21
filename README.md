@@ -16,7 +16,6 @@ Compilation Techniques project @ Warsaw University of Technology. The aim of the
 
 ## Author 
 Bartosz Świtalski  
-bswitalski.main@gmail.com
 
 ## Requirements
 * JDK 15
