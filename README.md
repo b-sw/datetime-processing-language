@@ -28,7 +28,7 @@ bswitalski.main@gmail.com
 **file_name** - file to interpret
 
 ### output
-After running the program it will write the output to standard output.
+After program is run it writes the output to standard output.
 
 ## Language features
 - `date` type
@@ -44,6 +44,25 @@ After running the program it will write the output to standard output.
 - built-in method `print()`
 
 ## Usage example
+```c++
+void check(date d1, date d2, num n1, num n2){
+  if (d1 >= d2 && n1 > n2 || n1 < n2){
+    print("priorities hierarchy ok");
+  }
+  else {
+    print("oops.. something wrong");
+  }
+}
+void main() {
+  date d1 = 01.01.1999.11:11:12;
+  date d2 = 01.01.1999.11.11.11;
+  num n1 = 12.34;
+  num n2 = 13;
+  
+  check(d1, d2, n1, n2);
+}
+// output: priorities hierarchy ok
+```
 
 ## Language details
 Language, technical details and more usage examples are to be found in `doc` directory in `manual` file.
